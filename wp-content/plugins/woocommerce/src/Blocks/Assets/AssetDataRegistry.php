@@ -89,7 +89,7 @@ class AssetDataRegistry {
 			'dateFormat'             => wc_date_format(),
 			'homeUrl'                => esc_url( home_url( '/' ) ),
 			'locale'                 => $this->get_locale_data(),
-			'dashboardUrl'           => wc_get_account_endpoint_url( 'dashboard' ),
+			'dashboardUrl'           => wc_get_account_endpoint_url( 'orders' ),
 			'orderStatuses'          => $this->get_order_statuses(),
 			'placeholderImgSrc'      => wc_placeholder_img_src(),
 			'productsSettings'       => $this->get_products_settings(),

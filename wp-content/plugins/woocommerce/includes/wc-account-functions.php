@@ -101,7 +101,7 @@ function wc_get_account_menu_items() {
 	);
 
 	$items = array(
-		'dashboard'       => __( 'Dashboard', 'woocommerce' ),
+		// 'dashboard'       => __( 'Dashboard', 'woocommerce' ),
 		'orders'          => __( 'Orders', 'woocommerce' ),
 		'downloads'       => __( 'Downloads', 'woocommerce' ),
 		'edit-address'    => _n( 'Address', 'Addresses', ( 1 + (int) wc_shipping_enabled() ), 'woocommerce' ),
@@ -152,7 +152,7 @@ function wc_get_account_menu_item_classes( $endpoint ) {
 
 	// Set current item class.
 	$current = isset( $wp->query_vars[ $endpoint ] );
-	if ( 'dashboard' === $endpoint && ( isset( $wp->query_vars['page'] ) || empty( $wp->query_vars ) ) ) {
+	if ( 'orders' === $endpoint && ( isset( $wp->query_vars['page'] ) || empty( $wp->query_vars ) ) ) {
 		$current = true; // Dashboard is not an endpoint, so needs a custom check.
 	} elseif ( 'orders' === $endpoint && isset( $wp->query_vars['view-order'] ) ) {
 		$current = true; // When looking at individual order, highlight Orders list item (to signify where in the menu the user currently is).
@@ -177,7 +177,7 @@ function wc_get_account_menu_item_classes( $endpoint ) {
  * @return string
  */
 function wc_get_account_endpoint_url( $endpoint ) {
-	if ( 'dashboard' === $endpoint ) {
+	if ( 'orders' === $endpoint ) {
 		return wc_get_page_permalink( 'myaccount' );
 	}
 
