@@ -23,9 +23,23 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 <?php if ( 'yes' === get_option( 'woocommerce_enable_myaccount_registration' ) ) : ?>
 
-<div class="u-columns col2-set" id="customer_login">
+<div class="form-login" id="customer_login">
+	<div class="form-login__wrapper">
 
-	<div class="u-column1 col-1">
+
+	<div class="form-login__tab-list" id="tabs-log">
+		<label class="form-login__tab form-login__tab_active">
+			<span>Вход</span>
+			<input type="radio" value="login" name="login-or-registration" checked class="form-login__tab-input">
+		</label>
+
+		<label class="form-login__tab">
+			<span>Регистрация</span>
+			<input type="radio" value="registration" name="login-or-registration" class="form-login__tab-input">
+		</label>
+	</div>
+
+	<div class="form-login__form-login form-login__form_active">
 
 <?php endif; ?>
 
@@ -65,7 +79,7 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 
 	</div>
 
-	<div class="u-column2 col-2">
+	<div class="form-login__form-registration">
 
 		<h2><?php esc_html_e( 'Register', 'woocommerce' ); ?></h2>
 
@@ -112,8 +126,105 @@ do_action( 'woocommerce_before_customer_login_form' ); ?>
 		</form>
 
 	</div>
-
+	</div>
 </div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const tabsLog = document.querySelector('#tabs-log');
+
+		const containerFormLogin = document.querySelector('.form-login__form-login');
+		const containerFormRegistration = document.querySelector('.form-login__form-registration');
+
+		const toggleTabActive = (tabParentNode, value) => {
+			[...tabParentNode.querySelectorAll('.form-login__tab')].forEach((item) => {
+				if (!item.querySelector('input')?.value) {
+					return;
+				}
+
+				if (item.querySelector('input').value === value) {
+					item.classList.add('form-login__tab_active');
+				} else {
+					item.classList.remove('form-login__tab_active');
+				}
+			})
+		}
+
+		const changeFormVisibility = (value) => {
+			if (value === 'login') {
+				containerFormLogin.classList.add('form-login__form_active');
+				containerFormRegistration.classList.remove('form-login__form_active');
+			} else {
+				containerFormLogin.classList.remove('form-login__form_active');
+				containerFormRegistration.classList.add('form-login__form_active');
+			}
+		}
+
+		tabsLog?.addEventListener('change', (e) => {
+			toggleTabActive(tabsLog, e.target.value);
+
+			changeFormVisibility(e.target.value);
+		})
+	})
+</script>
+
+<style>
+	.form-login {
+		display: flex;
+		justify-content: center;
+	}
+
+	.form-login__wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+
+		width: 100%;
+		max-width: 500px;
+	}
+
+	.form-login__form-login {
+		display: none;
+	}
+
+	.form-login__form-registration {
+		display: none;
+	}
+
+	.form-login__form_active {
+		display: block;
+	}
+
+	.form-login__tab-list {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.form-login__tab {
+		padding: .6180469716em 1.41575em;
+		color: #43454b;
+		background-color: #f2f2f2;
+		font-weight: 600;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	@media (hover) {
+		.form-login__tab:hover {
+			opacity: 0.9;
+		}
+	}
+
+	.form-login__tab_active {
+		color: #ffffff;
+		background-color: #333333;
+	}
+
+	.form-login__tab-input {
+		display: none;
+	}
+</style>
 <?php endif; ?>
 
 <?php do_action( 'woocommerce_after_customer_login_form' ); ?>
